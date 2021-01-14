@@ -1,11 +1,8 @@
 # -*- coding: utf-8 -*-
-"""
--------------------------------------------------
-   File Name:    demo
-   Description :
-   date:         2021/1/9
--------------------------------------------------
-"""
+'''
+@date: 2021/1/4 11:34
+@desc: 
+'''
 
 
 import json
@@ -14,19 +11,17 @@ import requests
 from utils import get_signature
 
 
-def req_client(accessKey, secretKey, url, formdata, apiKey):
+def req_black_list_api(accessKey, secretKey, formdata, url, apiKey):
     # 10位秒级时间戳
     timestamp = str(int(time.time()))
-
     method = 'POST'
 
-    # 获取签名
-    sig = get_signature(accessKey, secretKey, timestamp, formdata, url, method)
+    sig = get_signature(accessKey, secretKey, timestamp,formdata, url, method)
 
     headers = {
         'signature': sig,
         'content-type': 'application/json;charset=UTF-8',
-        'u-date': timestamp,
+        'u-date': timestamp,  # 10位时间戳
         'access-key': accessKey,
         'api-key': apiKey
     }
@@ -35,25 +30,19 @@ def req_client(accessKey, secretKey, url, formdata, apiKey):
 
     print(resp.text)
 
-
 if __name__=='__main__':
-
     url = 'http://localhost:8095/api/v1/blacklist'
 
     accessKey = 'your access key'
     secretKey = 'your secret key'
     apiKey = 'api key'
-
     formdata = {
-        'event': '',
-        'pancode': '',
+        'parCode': '',
         'aadhaar': '',
-        'mobile': '7543862819',
+        'mobile': '',
+        'event': '',
         'name': '',
-        'eventTime': int(time.time()),
+        'eventTime': str(int(time.time())),
         'returnType': 'details'
     }
-
-    req_client(accessKey, secretKey, url, formdata, apiKey)
-
-
+    req_black_list_api(accessKey, secretKey,formdata, url, apiKey)
