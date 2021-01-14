@@ -1,5 +1,8 @@
 package com.unbiased.demo.java.util;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import org.apache.commons.lang.StringUtils;
 import org.yaml.snakeyaml.external.biz.base64Coder.Base64Coder;
 
 import javax.crypto.Mac;
@@ -10,6 +13,7 @@ import java.net.URLEncoder;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -156,12 +160,17 @@ public class SigUtils {
     public static String getSignature(String method, String url, Map<String,String> params, String accessKey, String secretKey, String uDate) {
 
         String urlPath = getUrlPath(url);
-        params.put("uDate", uDate);
-        params.put("accessKey", accessKey);
-
+        Map<String,String> fData = new HashMap<>();
+        fData.put("uDate", uDate);
+        fData.put("accessKey", accessKey);
         params = delValNullInMap(params);
 
-        return createSig(method,urlPath, params, secretKey+ "&");
+        String formData = ParamsUtils.handlerParams(params);
+        if (StringUtils.isNotBlank(formData)) {
+            fData.put("formData", formData);
+        }
+
+        return createSig(method,urlPath, fData, secretKey+ "&");
     }
 
 

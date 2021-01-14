@@ -1,5 +1,6 @@
 package com.unbiased.demo.java;
 
+import com.alibaba.fastjson.JSONObject;
 import com.unbiased.demo.java.util.SigUtils;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -19,9 +20,9 @@ public class JavaApplication {
      * @param args
      */
     public static void main(String[] args) {
-        String accessKey = "your access key";
-        String secretKey = "your secret key";
-        String apiKey = "api key";
+        String accessKey = "JIFHUS84J2K3O49080";
+        String secretKey = "9b7adbd2ee5206224135";
+        String apiKey = "ehuia813hjiiad";
 
         String url = "http://localhost:8095/api/v1/blacklist";
 
@@ -30,7 +31,7 @@ public class JavaApplication {
 
         Map<String, String> params = new HashMap<>();
         params.put("event", "");
-        params.put("pancode", "");
+        params.put("panCode", "");
         params.put("aadhaar","");
         params.put("mobile","7543862819");
         params.put("name","");
@@ -40,9 +41,6 @@ public class JavaApplication {
 
         // 计算签名
         String sig = SigUtils.getSignature("POST", url, params, accessKey, secretKey, timestamp);
-
-        System.out.println("sig:" + sig);
-
 
         // 请求接口
         RestTemplate template = new RestTemplate();
