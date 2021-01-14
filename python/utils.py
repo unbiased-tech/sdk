@@ -64,7 +64,8 @@ def get_signature(accessKey, secretKey, timestamp, formdata={}, url = None, meth
 
     if method == 'GET':
         q = u_parse.query
-        params['formData'] = q
+        if q:
+            params['formData'] = q
     elif method == 'POST':
         formdata = del_dict_value_is_none(formdata)
         if formdata:
