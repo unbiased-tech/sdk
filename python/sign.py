@@ -12,6 +12,7 @@ from urllib.parse import quote
 import binascii
 import hashlib
 import hmac
+import json
 
 
 def mk_soucrce(method, url_path, params):
@@ -33,21 +34,3 @@ def hmac_sha1_sig(method, url_path, params, secret):
     source_bytes = bytes(source, 'latin-1')
     hashed = hmac.new(secret_bytes, source_bytes, hashlib.sha1)
     return binascii.b2a_base64(hashed.digest())[:-1]
-
-
-def main():
-    method = 'GET'
-    url_path = '/v1/blacklist'
-    params = {
-        'appKey': 'JIFHUS84J2K3O49080',
-        'mobile': '19900992233',
-    }
-
-    secret = '9b7adbd2ee5206224135&'
-
-    print(mk_soucrce(method, url_path, params))
-    print(hmac_sha1_sig(method, url_path, params, secret))
-
-
-if __name__ == '__main__':
-    main()
