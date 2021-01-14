@@ -48,27 +48,33 @@ def item_generator(json_input):
                 yield item
 
 
-def get_signature(accessKey, secretKey, timestamp, formdata = None, url = None, method='POST'):
+def get_signature(accessKey, secretKey, timestamp, formdata={}, url = None, method='POST'):
 
-    url_path = urlparse(url).path
+    method = method.upper()
 
     secretKey = '%s&' % secretKey
+
+    u_parse = urlparse(url)
+    url_path = u_parse.path
 
     params = {
         'accessKey': accessKey,
         'uDate': timestamp
     }
 
-    formdata = del_dict_value_is_none(formdata)
-    if formdata:
-        tmp = []
-        for i in item_generator(formdata):
-            tmp.append(i)
-        # 去重
-        tmp = list(set(tmp))
-        tmp = sorted(tmp)
-        print(tmp)
-        a = '&'.join(tmp)
-        params['formData'] = a
+    if method == 'GET':
+        q = u_parse.query
+        params['formData'] = q
+    elif method == 'POST':
+        formdata = del_dict_value_is_none(formdata)
+        if formdata:
+            tmp = []
+            for i in item_generator(formdata):
+                tmp.append(i)
+            # 去重
+            tmp = list(set(tmp))
+            tmp = sorted(tmp)
+            a = '&'.join(tmp)
+            params['formData'] = a
 
     return hmac_sha1_sig(method, url_path, params, secretKey)
