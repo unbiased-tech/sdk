@@ -33,7 +33,7 @@ public class JavaApplication {
         params.put("event", "");
         params.put("panCode", "");
         params.put("aadhaar","");
-        params.put("mobile","7543862819");
+        params.put("mobile","");
         params.put("name","");
         params.put("eventTime",timestamp);
         params.put("returnType", "details");
