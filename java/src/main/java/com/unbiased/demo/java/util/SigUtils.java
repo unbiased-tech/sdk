@@ -142,8 +142,18 @@ public class SigUtils {
             return u.getPath();
         }catch (Exception e) {
             e.printStackTrace();
+            return null;
         }
-        return null;
+    }
+
+    private static String getUrlQueryParams(String url) {
+        try {
+            URL u = new URL(url);
+            return u.getQuery();
+        }catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
 
@@ -163,11 +173,17 @@ public class SigUtils {
         Map<String,String> fData = new HashMap<>();
         fData.put("uDate", uDate);
         fData.put("accessKey", accessKey);
-        params = delValNullInMap(params);
 
-        String formData = ParamsUtils.handlerParams(params);
-        if (StringUtils.isNotBlank(formData)) {
-            fData.put("formData", formData);
+        method = method.toUpperCase();
+        if ("POST".equals(method)) {
+            params = delValNullInMap(params);
+
+            String formData = ParamsUtils.handlerParams(params);
+            if (StringUtils.isNotBlank(formData)) {
+                fData.put("formData", formData);
+            }
+        } else if ("GET".equals(method)) {
+            fData.put("formData", getUrlQueryParams(url));
         }
 
         return createSig(method,urlPath, fData, secretKey+ "&");

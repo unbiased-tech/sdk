@@ -20,9 +20,10 @@ public class JavaApplication {
      * @param args
      */
     public static void main(String[] args) {
-        String accessKey = "your access key";
-        String secretKey = "your secret key";
-        String apiKey = "api key";
+        String accessKey = "JIFHUS84J2K3O49080";
+        String secretKey = "9b7adbd2ee5206224135";
+        String apiKey = "ehuia813hjiiad";
+
 
         String url = "http://localhost:8095/api/v1/blacklist";
 
@@ -33,7 +34,7 @@ public class JavaApplication {
         params.put("event", "");
         params.put("panCode", "");
         params.put("aadhaar","");
-        params.put("mobile","");
+        params.put("mobile","7543862819");
         params.put("name","");
         params.put("eventTime",timestamp);
         params.put("returnType", "details");
