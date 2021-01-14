@@ -182,7 +182,7 @@ public class SigUtils {
             if (StringUtils.isNotBlank(formData)) {
                 fData.put("formData", formData);
             }
-        } else if ("GET".equals(method)) {
+        } else if ("GET".equals(method) && StringUtils.isNotBlack(getUrlQueryParams(url))) {
             fData.put("formData", getUrlQueryParams(url));
         }
 
