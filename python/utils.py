@@ -13,11 +13,13 @@ from urllib.parse import urlparse
 
 # 删除参数为空的值
 def del_dict_value_is_none(data):
+    if not data:
+        return data
     for key in list(data.keys()):
         if not data.get(key) or len(data.get(key)) == 0:
             del data[key]
         if isinstance(data.get(key), list):
-            data[key] = json.dumps(data.get(key)).replace(' ', '')
+            data[key] = json.loads(json.dumps(data.get(key)).replace(' ', ''))
 
     return data
 
@@ -57,13 +59,15 @@ def get_signature(accessKey, secretKey, timestamp, formdata = None, url = None, 
         'uDate': timestamp
     }
 
+    formdata = del_dict_value_is_none(formdata)
     if formdata:
         tmp = []
         for i in item_generator(formdata):
             tmp.append(i)
+        # 去重
+        tmp = list(set(tmp))
         tmp = sorted(tmp)
-
-        print('tmp:%s' % tmp)
+        print(tmp)
         a = '&'.join(tmp)
         params['formData'] = a
 
