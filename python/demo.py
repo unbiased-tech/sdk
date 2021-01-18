@@ -11,7 +11,7 @@ import requests
 from utils import get_signature
 
 
-def req_black_list_api(accessKey, secretKey, formdata, url, apiKey):
+def req_api(accessKey, secretKey, formdata, url, apiKey):
     # 10位秒级时间戳
     timestamp = str(int(time.time()))
     method = 'POST'
@@ -21,9 +21,8 @@ def req_black_list_api(accessKey, secretKey, formdata, url, apiKey):
     headers = {
         'signature': sig,
         'content-type': 'application/json;charset=UTF-8',
-        'u-date': timestamp,  # 10位时间戳
-        'access-key': accessKey,
-        'api-key': apiKey
+        'eventTime': timestamp,  # 10位时间戳
+        'accessKey': accessKey,
     }
 
     resp = requests.post(url=url, headers=headers, data=json.dumps(formdata))
@@ -31,18 +30,20 @@ def req_black_list_api(accessKey, secretKey, formdata, url, apiKey):
     print(resp.text)
 
 if __name__=='__main__':
-    url = 'http://localhost:8095/api/v1/blacklist'
+    url = 'http://localhost:8095/api/v1/attentionList'
 
-    accessKey = 'your access key'
-    secretKey = 'your secret key'
-    apiKey = 'api key'
+    accessKey = 'xxx'
+    secretKey = 'xxx'
+    apiKey = 'xxx'
     formdata = {
-        'parCode': '',
-        'aadhaar': '',
-        'mobile': '',
-        'event': '',
-        'name': '',
+        'partnerName': 'xxx',
+        'appName': 'xxx',
+        'panCode': 'xxx',
+        'aadhaar': 'xxx',
+        'mobile': 'xxx',
+        'event': 'xxx',
+        'name': 'xxx',
         'eventTime': str(int(time.time())),
         'returnType': 'details'
     }
-    req_black_list_api(accessKey, secretKey,formdata, url, apiKey)
+    req_api(accessKey, secretKey,formdata, url, apiKey)
