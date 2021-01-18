@@ -1,6 +1,5 @@
 package com.unbiased.demo.java;
 
-import com.alibaba.fastjson.JSONObject;
 import com.unbiased.demo.java.util.SigUtils;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -20,28 +19,29 @@ public class JavaApplication {
      * @param args
      */
     public static void main(String[] args) {
-        String accessKey = "your access key";
-        String secretKey = "your secret key";
-        String apiKey = "api key";
+        String accessKey = "xxx";
+        String secretKey = "xxx";
 
 
-        String url = "http://localhost:8095/api/v1/blacklist";
+        String url = "http://localhost:8095/api/v1/attentionList";
 
 
         String timestamp = String.valueOf(System.currentTimeMillis() / 1000);
 
         Map<String, String> params = new HashMap<>();
+        params.put("partnewName","");
+        params.put("appName","");
         params.put("event", "");
         params.put("panCode", "");
         params.put("aadhaar","");
-        params.put("mobile","123456");
+        params.put("mobile","7543862819");
         params.put("name","");
         params.put("eventTime",timestamp);
         params.put("returnType", "details");
 
 
         // 计算签名
-        String sig = SigUtils.getSignature("POST", url, params, accessKey, secretKey, timestamp);
+        String sig = SigUtils.getSignature("POST", url, accessKey, secretKey, timestamp);
 
         // 请求接口
         RestTemplate template = new RestTemplate();
@@ -49,9 +49,8 @@ public class JavaApplication {
         HttpHeaders headers = new HttpHeaders();
         headers.add("signature", sig);
         headers.add("content-type", "application/json;charset=UTF-8");
-        headers.add("u-date", timestamp);
-        headers.add("access-key", accessKey);
-        headers.add("api-key",apiKey);
+        headers.add("eventTime", timestamp);
+        headers.add("accessKey", accessKey);
 
 
         HttpEntity<Map<String, String>> httpEntity = new HttpEntity<>(params, headers);

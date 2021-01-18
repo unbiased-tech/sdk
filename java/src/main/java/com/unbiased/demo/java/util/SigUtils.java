@@ -1,8 +1,5 @@
 package com.unbiased.demo.java.util;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
-import org.apache.commons.lang.StringUtils;
 import org.yaml.snakeyaml.external.biz.base64Coder.Base64Coder;
 
 import javax.crypto.Mac;
@@ -14,7 +11,6 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 /**
@@ -109,28 +105,6 @@ public class SigUtils {
         return buffer.toString();
     }
 
-
-    /**
-     * 删除value为空的Map数据
-     * @param param 请求参数
-     * @return
-     */
-    private static Map<String, String> delValNullInMap(Map<String, String> param) {
-        try {
-            Iterator<String> it = param.keySet().iterator();
-            while (it.hasNext()) {
-                Object ele = it.next();
-                if (param.get(ele).toString().trim().equals("")) {
-                    it.remove();
-                }
-            }
-            return param;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
     /**
      * 获取url path
      * @param url url
@@ -146,45 +120,21 @@ public class SigUtils {
         }
     }
 
-    private static String getUrlQueryParams(String url) {
-        try {
-            URL u = new URL(url);
-            return u.getQuery();
-        }catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-
     /**
      * 获取签名
      * @param method 请求方法
      * @param url 请求url
-     * @param params 请求参数
      * @param accessKey 用户accessKey
      * @param secretKey 用户密钥
-     * @param uDate 时间戳
+     * @param eventTime 时间戳
      * @return
      */
-    public static String getSignature(String method, String url, Map<String,String> params, String accessKey, String secretKey, String uDate) {
+    public static String getSignature(String method, String url, String accessKey, String secretKey, String eventTime) {
 
         String urlPath = getUrlPath(url);
-        Map<String,String> fData = new HashMap<>();
-        fData.put("uDate", uDate);
+        Map<String,String> fData = new HashMap<>(2);
+        fData.put("eventTime", eventTime);
         fData.put("accessKey", accessKey);
-
-        method = method.toUpperCase();
-        if ("POST".equals(method)) {
-            params = delValNullInMap(params);
-
-            String formData = ParamsUtils.handlerParams(params);
-            if (StringUtils.isNotBlank(formData)) {
-                fData.put("formData", formData);
-            }
-        } else if ("GET".equals(method) && StringUtils.isNotBlack(getUrlQueryParams(url))) {
-            fData.put("formData", getUrlQueryParams(url));
-        }
 
         return createSig(method,urlPath, fData, secretKey+ "&");
     }
