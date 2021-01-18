@@ -11,7 +11,7 @@ import requests
 from utils import get_signature
 
 
-def req_api(accessKey, secretKey, formdata, url, apiKey):
+def req_api(accessKey, secretKey, formdata, url):
     # 10位秒级时间戳
     timestamp = str(int(time.time()))
     method = 'POST'
@@ -46,4 +46,4 @@ if __name__=='__main__':
         'eventTime': str(int(time.time())),
         'returnType': 'details'
     }
-    req_api(accessKey, secretKey,formdata, url, apiKey)
+    req_api(accessKey, secretKey,formdata, url)
