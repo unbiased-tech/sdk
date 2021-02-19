@@ -1,8 +1,4 @@
 # -*- coding: utf-8 -*-
-'''
-@date: 2021/1/4 11:34
-@desc: 
-'''
 
 
 import json
@@ -11,7 +7,7 @@ import requests
 from utils import get_signature
 
 
-def req_api(accessKey, secretKey, formdata, url):
+def req_black_list_api(accessKey, secretKey, formdata, url):
     # 10位秒级时间戳
     timestamp = str(int(time.time()))
     method = 'POST'
@@ -30,20 +26,20 @@ def req_api(accessKey, secretKey, formdata, url):
     print(resp.text)
 
 if __name__=='__main__':
-    url = 'http://localhost:8095/api/v1/attentionList'
+    url = 'http://ip:port/api/v1/attentionList'
 
-    accessKey = 'xxx'
-    secretKey = 'xxx'
-    apiKey = 'xxx'
+    accessKey = 'ak'
+    secretKey = 'sk'
+
     formdata = {
-        'partnerName': 'xxx',
-        'appName': 'xxx',
-        'panCode': 'xxx',
-        'aadhaar': 'xxx',
-        'mobile': 'xxx',
-        'event': 'xxx',
-        'name': 'xxx',
+        'partnerName': '',
+        'appName': '',
+        'panCode': '',
+        'aadhaar': '',
+        'mobile': '',
+        'event': '',
+        'name': '',
         'eventTime': str(int(time.time())),
         'returnType': 'details'
     }
-    req_api(accessKey, secretKey,formdata, url)
+    req_black_list_api(accessKey, secretKey,formdata, url)
