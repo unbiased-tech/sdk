@@ -1,11 +1,5 @@
 # -*- coding: utf-8 -*-
-"""
--------------------------------------------------
-   File Name:    utils
-   Description :
-   date:         2021/1/9
--------------------------------------------------
-"""
+
 import json
 from sign import hmac_sha1_sig
 from urllib.parse import urlparse
@@ -58,17 +52,5 @@ def get_signature(accessKey, secretKey, timestamp, formdata = None, url = None, 
         'accessKey': accessKey,
         'eventTime': timestamp
     }
-
-    # formdata = del_dict_value_is_none(formdata)
-    # if formdata:
-    #     tmp = []
-    #     for i in item_generator(formdata):
-    #         tmp.append(i)
-    #     # 去重
-    #     tmp = list(set(tmp))
-    #     tmp = sorted(tmp)
-    #     print(tmp)
-    #     a = '&'.join(tmp)
-    #     params['formData'] = a
 
     return hmac_sha1_sig(method, url_path, params, secretKey)
