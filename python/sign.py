@@ -1,18 +1,9 @@
 # -*- coding: utf-8 -*-
-"""
--------------------------------------------------
-   File Name:    sign
-   Description :
-   date:         2021/1/9
--------------------------------------------------
-"""
 
-import urllib
-from urllib.parse import quote
 import binascii
 import hashlib
 import hmac
-import json
+from urllib.parse import quote
 
 
 def mk_soucrce(method, url_path, params):
